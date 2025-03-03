@@ -1,26 +1,35 @@
 #include <Arduino.h>
 #include "WifiManager.h"
-
+#include "mqttManager.h"
+#include <CONFIG.h>
 AsyncWebServer server(80);
 MyWifiManager wifiManager(&server);
+MqttManager mqttManager(MQTT_BROKER,MQTT_PORT);
 
 void setup()
 {
   wifiManager.connect();
   pinMode(RELAYPIN, OUTPUT);
+  mqttManager.connect();
+  mqttManager.subscribe(SUB_TOPIC);
+  Serial.begin(115200);
 }
 
 void loop()
 {
   if (wifiManager.isConnected())
   {
-    digitalWrite(RELAYPIN, LOW);
-    delay(1000);
+    if(mqttManager.isConnected())
+    {
+      mqttManager.loop();
+    }
+    else
+    {
+      mqttManager.reconnect();
+    }
   }
   else
   {
-    digitalWrite(RELAYPIN, HIGH);
     wifiManager.reConnect();
-    delay(1000);
   }
 }
