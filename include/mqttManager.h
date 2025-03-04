@@ -1,11 +1,13 @@
 #include <ArduinoJson.h>
 #include <PubSubClient.h>
-#include <WiFiClient.h>
+#include <ESP8266WiFi.h>
+#include <CONFIG.h>
+
 class MqttManager
 {
 public:
-  MqttManager(const char *mqttServer, int mqttPort, const char *mqttUser = "", const char *mqttPassword = "");
-  void connect();
+  MqttManager(const char *mqttServer, int mqttPort, const char *mqttUser = 0, const char *mqttPassword = 0);
+  void connect( const char *mqttServer, int mqttPort);
   void publish(const char *topic, const char *message);
   void subscribe(const char *topic);
   void loop();

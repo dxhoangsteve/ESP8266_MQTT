@@ -4,7 +4,7 @@
 
 #define LEDPIN 2
 
-#define MQTT_BROKER "127.0.0.1"
+#define MQTT_BROKER "192.168.1.7"
 #define MQTT_PORT 1883
 #define MQTT_USER ""
 #define MQTT_PASS ""
